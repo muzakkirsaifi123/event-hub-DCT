@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- event-hub
+ 
+pool: Harshit-pool
+
+# parameters:
+#   - name: domain
+#     type: string
+#   - name: env
+#     type: string
+#   - name: subscriptionId
+#     type: string
+#   - name: customerId
+#     type: string
+
+# steps:
+#   - script: |
+#       echo domain="${{parameters.domain}}" >> tt
+#       echo env="${{parameters.env}}" >> tt
+#       echo subscriptionId="${{parameters.subscriptionId}}" >> tt
+#       echo customerId="${{parameters.customerId}}" >> tt
+#     displayName: Create auto.tfvars
+
+  - script: |
+      terraform fmt
+    displayName: "Terraorm fmt"
+
+  - script: |
+      cd event_hub/
+      terraform init
+    displayName: "Terraform init "
+
+  - script: |
+      cd event_hub/
+      terraform plan
+    displayName: "Terraform plan "
+
+  - script: |
+      cd event_hub/
+      terraform apply -auto-approve
+    displayName: "Terraform apply "
